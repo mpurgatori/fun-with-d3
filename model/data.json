@@ -5,7 +5,7 @@
         "total":200000,
         "tablet":120000,
         "smartphone":80000,
-        "unit": "$,2f",
+        "unit": "$,",
         "primary":"#3d681c",
         "secondary":"#88d440",
         "third":"f6fbf3"
@@ -15,17 +15,17 @@
         "total":50000000,
         "tablet":20000000,
         "smartphone":30000000,
-        "unit": ",2f",
+        "unit": ",",
         "primary":"#375269",
         "secondary":"#7acfe3",
         "third": "#f6fafb"
        },
        {
-        "name":"REVENUE",
-        "total":200000,
-        "tablet":120000,
-        "smartphone":80000,
-        "unit": ",2f",
+        "name":"VISITS",
+        "total":600000000,
+        "tablet":480000000,
+        "smartphone":120000000,
+        "unit": ",",
         "primary":"#bd5826",
         "secondary":"#f3c436",
         "third":"#fcfaf3"
