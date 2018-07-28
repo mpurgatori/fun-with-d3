@@ -18354,126 +18354,117 @@ Object.defineProperty(exports, "event", {get: function() { return d3Selection.ev
 },{"d3-array":1,"d3-axis":2,"d3-brush":3,"d3-chord":4,"d3-collection":5,"d3-color":6,"d3-contour":7,"d3-dispatch":8,"d3-drag":9,"d3-dsv":10,"d3-ease":11,"d3-fetch":12,"d3-force":13,"d3-format":14,"d3-geo":15,"d3-hierarchy":16,"d3-interpolate":17,"d3-path":18,"d3-polygon":19,"d3-quadtree":20,"d3-random":21,"d3-scale":23,"d3-scale-chromatic":22,"d3-selection":24,"d3-shape":25,"d3-time":27,"d3-time-format":26,"d3-timer":28,"d3-transition":29,"d3-voronoi":30,"d3-zoom":31}],33:[function(require,module,exports){
 const d3 = require("d3");
 
-function degreeCalc(degree) {
+const degreeCalc = (degree)=> {
     return degree * Math.PI / 180.0;
-  }
+};
   
-  const mainColor = '#3d681c'; 
-  const secondaryColor = '#88d440';
-  const category = 'REVENUE'
+const mainColor = '#3d681c', 
+      secondaryColor = '#88d440',
+      category = 'REVENUE'
   
-  const width = 160,
-      height = 160,
-      twoPi = 2 * Math.PI,
-      progress = 0,
-      allocated = 80000,
-      total = 200000,
-      euro = d3.timeFormatDefaultLocale({
-        "decimal": ".",
-        "thousands": ".",
-        "grouping": [3],
-        "currency": ["", "€"],
-        "dateTime": "%a %b %e %X %Y",
-        "date": "%m/%d/%Y",
-        "time": "%H:%M:%S",
-        "periods": ["AM", "PM"],
-        "days": ["Sunday", "Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday"],
-        "shortDays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    }),
-  formatPercent = euro.numberFormat("$,2f");
-  
-  const arc = d3.svg.arc()
+let width = 160,
+    height = 160,
+    twoPi = 2 * Math.PI,
+    progress = 0,
+    allocated = 80000,
+    total = 200000,
+    euro = d3.formatLocale({
+    "decimal": ".",
+    "thousands": ".",
+    "grouping": [3],
+    "currency": ["","€"]
+}),
+formatPercent = euro.format("$,")(total);
+
+const arc = d3.arc()
       .startAngle(0)
       .innerRadius(75)
       .outerRadius(80);
   
-  const arc2 = d3.svg.arc()
-      .startAngle(degreeCalc(89))
-      .endAngle(degreeCalc(91))
-      .innerRadius(70)
-      .outerRadius(73);
+const dotArc1 = d3.arc()
+    .startAngle(degreeCalc(89))
+    .endAngle(degreeCalc(91))
+    .innerRadius(70)
+    .outerRadius(73);
+
+const dotArc2 = d3.arc()
+    .startAngle(degreeCalc(179))
+    .endAngle(degreeCalc(181))
+    .innerRadius(70)
+    .outerRadius(73);
+
+const dotArc3 = d3.arc()
+    .startAngle(degreeCalc(269))
+    .endAngle(degreeCalc(271))
+    .innerRadius(70)
+    .outerRadius(73);
+
+const dotArc4 = d3.arc()
+    .startAngle(degreeCalc(-1))
+    .endAngle(degreeCalc(1))
+    .innerRadius(70)
+    .outerRadius(73);
+
+const points = [dotArc1, dotArc2, dotArc3, dotArc4];
   
-  const arc3 = d3.svg.arc()
-      .startAngle(degreeCalc(179))
-      .endAngle(degreeCalc(181))
-      .innerRadius(70)
-      .outerRadius(73);
+const svg = d3.select("#app").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
   
-  const arc4 = d3.svg.arc()
-      .startAngle(degreeCalc(269))
-      .endAngle(degreeCalc(271))
-      .innerRadius(70)
-      .outerRadius(73);
+const meter = svg.append("g")
+    .attr("class", "funds-allocated-meter");
+
+meter.append("path")
+    .attr("fill", secondaryColor)
+    .attr("d", arc.endAngle(twoPi));
+
+const foreground = meter.append("path")
+    .attr("fill", mainColor);
+
+const mapDots =()=> {
+    let dot1, dot2, dot3, dot4;
+    let dots = [dot1, dot2, dot3, dot4];
+    return dots.map((dot)=> {
+        dot = meter.append("path").attr("fill", mainColor);
+        return dot;
+    });    
+};
   
-  const arc5 = d3.svg.arc()
-      .startAngle(degreeCalc(-1))
-      .endAngle(degreeCalc(1))
-      .innerRadius(70)
-      .outerRadius(73);
+const description = meter.append("text")
+    .attr("text-anchor", "middle")
+    .attr("class", "description")
+    .attr("dy", "-1.5em")
+    .text(category);
+
+const percentComplete = meter.append("text")
+    .attr("text-anchor", "middle")
+    .attr("class", "percent-complete")
+    .attr("dy", ".4em");
   
-  const svg = d3.select("#app").append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+const i = d3.interpolate(progress, allocated / total);
   
-  const meter = svg.append("g")
-      .attr("class", "funds-allocated-meter");
-  
-  meter.append("path")
-      .attr("fill", secondaryColor)
-      .attr("d", arc.endAngle(twoPi));
-  
-  const foreground = meter.append("path")
-      .attr("fill", mainColor);
-  
-  const dotRight = meter.append("path")
-      .attr("fill", mainColor);
-  
-  const dotLow = meter.append("path")
-      .attr("fill", mainColor);
-  
-  const dotLeft = meter.append("path")
-      .attr("fill", mainColor);
-  
-  const dotHigh = meter.append("path")
-      .attr("fill", mainColor);
-  
-  const description = meter.append("text")
-      .attr("text-anchor", "middle")
-      .attr("class", "description")
-      .attr("dy", "-1.5em")
-      .text(category);
-  
-  const percentComplete = meter.append("text")
-      .attr("text-anchor", "middle")
-      .attr("class", "percent-complete")
-      .attr("dy", ".4em");
-  
-  const i = d3.interpolate(progress, allocated / total);
-  
-   const init = ()=> {
+const init = () => {
     d3.transition().duration(1000).tween("progress", function() {
         return function(t) {
-          progress = i(t);
-          foreground.attr("d", arc.endAngle(twoPi * progress));
-          dotRight.attr("d", arc2);
-          dotLow.attr("d", arc3);
-          dotLeft.attr("d", arc4);
-          dotHigh.attr("d", arc5);
-          percentComplete.text(formatPercent(total));
+            progress = i(t);
+            foreground.attr("d", arc.endAngle(twoPi * progress));
+            mapDots().forEach((dot, i)=>{
+            dot.attr("d", points[i]);
+            })
+            percentComplete.text(formatPercent);
         };
-      });
-   }
+    });
+};
 
 
 
-  module.exports = {
-    'init':init
-  };
+module.exports = {
+'init':init
+};
 },{"d3":32}],34:[function(require,module,exports){
 const chartComponent = require("./d3.js");
 
+chartComponent.init();
 },{"./d3.js":33}]},{},[34]);

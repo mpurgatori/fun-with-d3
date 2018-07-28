@@ -1,0 +1,13 @@
+
+
+.description {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 18px;
+    fill: #9B9B9B;
+}
+
+.percent-complete {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 25px;
+    letter-spacing: -.03em;
+}
