@@ -18365,16 +18365,7 @@ const mainColor = '#3d681c',
 let width = 160,
     height = 160,
     twoPi = 2 * Math.PI,
-    progress = 0,
-    allocated = 80000,
-    total = 200000,
-    euro = d3.formatLocale({
-    "decimal": ".",
-    "thousands": ".",
-    "grouping": [3],
-    "currency": ["","€"]
-}),
-formatPercent = euro.format("$,")(total);
+    progress = 0;
 
 const arc = d3.arc()
       .startAngle(0)
@@ -18432,28 +18423,43 @@ const mapDots =()=> {
     });    
 };
   
-const description = meter.append("text")
-    .attr("text-anchor", "middle")
-    .attr("class", "description")
-    .attr("dy", "-1.5em")
-    .text(category);
+const defineCategory = (name) => {
+    return meter.append("text")
+        .attr("text-anchor", "middle")
+        .attr("class", "description")
+        .attr("dy", "-1.5em")
+        .text(name);
+};
 
 const percentComplete = meter.append("text")
     .attr("text-anchor", "middle")
     .attr("class", "percent-complete")
     .attr("dy", ".4em");
   
-const i = d3.interpolate(progress, allocated / total);
   
 const init = () => {
+    
+    allocated = 80000,
+    total = 200000,
+    euro = d3.formatLocale({
+    "decimal": ".",
+    "thousands": ".",
+    "grouping": [3],
+    "currency": ["","€"]
+    }),
+    formatPercent = euro.format("$,")(total);
+
+    const i = d3.interpolate(progress, allocated / total);
+
     d3.transition().duration(1000).tween("progress", function() {
-        return function(t) {
+        return (t) => {
             progress = i(t);
             foreground.attr("d", arc.endAngle(twoPi * progress));
             mapDots().forEach((dot, i)=>{
             dot.attr("d", points[i]);
             })
             percentComplete.text(formatPercent);
+            defineCategory(category);
         };
     });
 };
