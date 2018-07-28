@@ -18354,19 +18354,22 @@ Object.defineProperty(exports, "event", {get: function() { return d3Selection.ev
 },{"d3-array":1,"d3-axis":2,"d3-brush":3,"d3-chord":4,"d3-collection":5,"d3-color":6,"d3-contour":7,"d3-dispatch":8,"d3-drag":9,"d3-dsv":10,"d3-ease":11,"d3-fetch":12,"d3-force":13,"d3-format":14,"d3-geo":15,"d3-hierarchy":16,"d3-interpolate":17,"d3-path":18,"d3-polygon":19,"d3-quadtree":20,"d3-random":21,"d3-scale":23,"d3-scale-chromatic":22,"d3-selection":24,"d3-shape":25,"d3-time":27,"d3-time-format":26,"d3-timer":28,"d3-transition":29,"d3-voronoi":30,"d3-zoom":31}],33:[function(require,module,exports){
 const d3 = require("d3");
 
-const degreeCalc = (degree)=> {
-    return degree * Math.PI / 180.0;
-};
-
-let dot1, dot2, dot3, dot4;
-let dots = [dot1, dot2, dot3, dot4];
-  
 
 let width = 160,
     height = 160,
-    twoPi = 2 * Math.PI,
-    progress = 0;
+    twoPi = 2 * Math.PI;
 
+const localeFormatOptions = {
+    "decimal": ".",
+    "thousands": ".",
+    "grouping": [3],
+    "currency": ["","€"]
+};
+
+const degreeCalc = (degree)=> {
+    return degree * Math.PI / 180.0;
+};
+    
 const arc = d3.arc()
       .startAngle(0)
       .innerRadius(75)
@@ -18398,8 +18401,16 @@ const dotArc4 = d3.arc()
 
 const points = [dotArc1, dotArc2, dotArc3, dotArc4];
  
+const creatCirclePoints = (meter, color) => {
+    let dot1, dot2, dot3, dot4;
+    let dots = [dot1, dot2, dot3, dot4];
+    dots.forEach((dot, i)=>{
+        dot = meter.append("path").attr("fill", color);
+        dot.attr("d", points[i]);
+    });
+};
+
 const createSvg = (appendTo, arcName) => {
-    console.log(appendTo, '!!!!!!')
     return d3.select(appendTo).append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -18408,25 +18419,22 @@ const createSvg = (appendTo, arcName) => {
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 };
 
-const formatNumber = (numberFormat,total) => {
-    let euro = d3.formatLocale({
-        "decimal": ".",
-        "thousands": ".",
-        "grouping": [3],
-        "currency": ["","€"]
-        }),
+const formatNumber = (numberFormat, total) => {
+    let euro = d3.formatLocale(localeFormatOptions),
         formatPercent = euro.format(numberFormat)(total);
         return formatPercent;
 };
   
-
+const createContainer = (divId) => {
+    var div = document.createElement('div');
+    div.setAttribute("id", divId);
+    div.setAttribute("class", "charts");
+    document.getElementById("app").append(div);
+};
 
 const init = (measurement) => {
 
-    var div = document.createElement('div');
-    div.setAttribute("id", measurement.name);
-    div.setAttribute("class", "charts");
-    document.getElementById("app").append(div);
+    createContainer(measurement.name);
 
     appendTo = `#${measurement.name}`;
 
@@ -18438,14 +18446,6 @@ const init = (measurement) => {
     .attr("fill", measurement.secondary)
     .attr("d", arc.endAngle(twoPi));
 
-    const foreground = meter.append("path")
-    .attr("fill", measurement.primary);
-
-    const dotsArray = dots.map((dot)=> {
-        dot = meter.append("path").attr("fill", measurement.primary);
-        return dot;
-    });
-    
     meter.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "description")
@@ -18457,23 +18457,17 @@ const init = (measurement) => {
         .attr("class", "percent-complete")
         .attr("dy", ".4em");
     
-    
-    const i = d3.interpolate(progress, measurement.smartphone / measurement.total);
+    creatCirclePoints(meter, measurement.primary);
 
-    d3.transition().duration(1000).tween("progress", function() {
-        return (t) => {
-            progress = i(t);
-            foreground.attr("d", arc.endAngle(twoPi * progress));
-            dotsArray.forEach((dot, i)=>{
-            dot.attr("d", points[i]);
-            });
+    meter.append("path")
+    .attr("fill", measurement.primary)
+    .attr("d", arc.endAngle(twoPi * (measurement.smartphone / measurement.total)));
 
-            formatPercent = formatNumber(measurement.unit,measurement.total);
-            percentComplete.text(formatPercent);
-        };
-    });
+    formatPercent = formatNumber(measurement.unit,measurement.total);
+
+    percentComplete.text(formatPercent);
+
 };
-
 
 
 module.exports = {
