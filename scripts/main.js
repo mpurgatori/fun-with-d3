@@ -13,7 +13,7 @@ fetch('http://localhost:3000/measures')
     });
   })
   .catch(function() {
-    console.log("Server fail fallback; Please Start Fake Server by running npm i and then npm start. json-server may need to be installed with the -g flag (npm install -g json-server)");
+    console.log("Server fail fallback; Please Start Fake Server by running npm i and then npm start.");
     dataIfServerFails.measures.forEach(measurement => {
         chartComponent.init(measurement);
     });
