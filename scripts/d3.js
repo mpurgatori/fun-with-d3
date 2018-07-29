@@ -96,6 +96,16 @@ const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, a
     parent.appendChild(div);
 };
 
+
+const placeSquiggleGraph = (image, appendDiv) => {
+    let div = document.createElement('div');
+    div.setAttribute("class", "squiggle-image")
+    div.innerHTML = `<img src="${image}" height="50" width="120">
+    `
+    let parent = document.getElementById(appendDiv);
+    parent.appendChild(div);
+};
+
 const init = (measurement) => {
 
     createContainer(measurement.name);
@@ -131,6 +141,7 @@ const init = (measurement) => {
 
     percentComplete.text(formatPercent);
     createBottomInfo(measurement.tablet, measurement.smartphone, measurement.total, measurement.primary, measurement.secondary, measurement.unit, measurement.name);
+    placeSquiggleGraph(measurement.image, measurement.name);
 };
 
 

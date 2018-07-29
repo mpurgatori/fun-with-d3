@@ -8,7 +8,7 @@
         "unit": "$,",
         "primary":"#3d681c",
         "secondary":"#88d440",
-        "third":"f6fbf3"
+        "image":"assets/revenue.png"
        },
        {
         "name":"IMPRESSIONS",
@@ -18,7 +18,7 @@
         "unit": ",",
         "primary":"#375269",
         "secondary":"#7acfe3",
-        "third": "#f6fafb"
+        "image":"assets/impressions.png"
        },
        {
         "name":"VISITS",
@@ -28,7 +28,7 @@
         "unit": ",",
         "primary":"#bd5826",
         "secondary":"#f3c436",
-        "third":"#fcfaf3"
+        "image":"assets/visits.png"
        }
    ] 
 }
