@@ -24,7 +24,7 @@ Things I wish I had time for:
 
 - The only work around I used was in the inclusion of the graph half circles in the center of the main circles. The graphs did not seem to correlate to the data in any way so I photoshopped them out and included them as images. With a little more time I would try and see if I could recreate them as svg paths. Everything else about the charts (the circles, the color bars and the north,south,east,west points within the circle )are svg paths created via d3.
 
-- Total time was between 10-12 hours with the bulk of that going to learning what was needed from the d3 library.
+Total time was between 10-12 hours with the bulk of that going to learning what was needed from the d3 library.
 
 I appreciate your time in reviewing this project and I hope to be in contact in the near future.
 
