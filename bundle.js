@@ -18360,41 +18360,21 @@ fetch('http://localhost:3000/measures')
     return response.json();
   })
   .then((data)=> {
-      console.log(data)
     data.forEach(measurement => {
         chartComponent.init(measurement);
     });
   });
-
-
-
-
 },{"./view-component.js":34}],34:[function(require,module,exports){
 const d3 = require("d3");
 
 
-let width = 160,
-    height = 160,
-    twoPi = 2 * Math.PI;
-
-//Config object for d3 localeFormat function
-const localeFormatOptions = {
-    "decimal": ".",
-    "thousands": ".",
-    "grouping": [3],
-    "currency": ["","€"]
-};
-
-//
 const degreeCalc = (degree)=> {
+    if (typeof degree !== "number")
+        return false      
     return degree * Math.PI / 180.0;
 };
     
-const arc = d3.arc()
-      .startAngle(0)
-      .innerRadius(75)
-      .outerRadius(80);
- 
+
 const createCirclePointPaths = () => {
     let dotArcs = [];
     let start = -1;
@@ -18414,6 +18394,8 @@ const createCirclePointPaths = () => {
 
  
 const creatCirclePoints = (meter, color) => {
+    if (typeof meter !== "object" || typeof color !== "string")
+        return false
     const points = createCirclePointPaths();
     let dots = [];
     for (let i=0; i<4; i++)
@@ -18424,6 +18406,10 @@ const creatCirclePoints = (meter, color) => {
 };
 
 const createSvg = (appendTo, arcName) => {
+    if (typeof appendTo !== "string" || typeof arcName !== "string")
+        return false
+    const width = 160,
+    height = 160;
     return d3.select(appendTo).append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -18433,12 +18419,22 @@ const createSvg = (appendTo, arcName) => {
 };
 
 const formatNumber = (numberFormat, total) => {
+    if (typeof numberFormat !== "string" || typeof total !== "number")
+        return false
+    const localeFormatOptions = {
+        "decimal": ".",
+        "thousands": ".",
+        "grouping": [3],
+        "currency": ["","€"]
+    };
     let euro = d3.formatLocale(localeFormatOptions),
         formatPercent = euro.format(numberFormat)(total);
         return formatPercent;
 };
   
 const createContainer = (divId) => {
+    if (typeof divId !== "string")
+        return false
     let div = document.createElement('div');
     div.setAttribute("id", divId);
     div.setAttribute("class", "charts");
@@ -18446,6 +18442,8 @@ const createContainer = (divId) => {
 };
 
 const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, appendDiv) => {
+    if (typeof tablet !== "number" || typeof smartphone !== "number" || typeof total !== "number" || typeof primary !== "string" || typeof secondary !== "string" || typeof unit !== "string" || typeof appendDiv !== "string")
+        return false
     const euroSymbal = unit === "$," ? "€" : "";
     const tabletPercent = (tablet/total) * 100;
     const smartphonePercent = (smartphone/total) * 100;
@@ -18465,23 +18463,30 @@ const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, a
 
 
 const placeSquiggleGraph = (image, appendDiv) => {
+    if (typeof image !== "string" || typeof appendDiv !== "string")
+        return false
     let div = document.createElement('div');
     div.setAttribute("class", "squiggle-image")
-    div.innerHTML = `<img src="${image}" height="50" width="120">
-    `
+    div.innerHTML = `<img src="${image}" height="50" width="120">`
     let parent = document.getElementById(appendDiv);
     parent.appendChild(div);
 };
 
 const init = (measurement) => {
+    if (typeof measurement !== "object")
+        return false
+    const twoPi = 2 * Math.PI;
+    const appendTo = `#${measurement.name}`;
 
     createContainer(measurement.name);
-
-    appendTo = `#${measurement.name}`;
-
+   
     const svg = createSvg(appendTo, `${measurement.name}-arc`);
-
     const meter = svg.append("g");
+
+    const arc = d3.arc()
+      .startAngle(0)
+      .innerRadius(75)
+      .outerRadius(80);
 
     meter.append("path")
     .attr("fill", measurement.secondary)
@@ -18504,7 +18509,7 @@ const init = (measurement) => {
     .attr("fill", measurement.primary)
     .attr("d", arc.endAngle(twoPi * (measurement.smartphone / measurement.total)));
 
-    formatPercent = formatNumber(measurement.unit,measurement.total);
+    const formatPercent = formatNumber(measurement.unit,measurement.total);
 
     percentComplete.text(formatPercent);
     createBottomInfo(measurement.tablet, measurement.smartphone, measurement.total, measurement.primary, measurement.secondary, measurement.unit, measurement.name);

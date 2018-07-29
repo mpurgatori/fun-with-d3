@@ -6,13 +6,18 @@
   "scripts": {
     "start": "json-server --watch model/data.json",
     "bundle": "browserify scripts/main.js -o bundle.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "browserify": "^16.2.2",
+    "carousel-js": "^4.0.0",
     "d3": "^5.5.0",
-    "json-server": "^0.14.0"
+    "json-server": "^0.14.0",
+    "uninstall": "0.0.0"
+  },
+  "devDependencies": {
+    "jasmine": "^3.1.0"
   }
 }
