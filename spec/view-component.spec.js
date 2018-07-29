@@ -1,4 +1,5 @@
-const view = require('../scripts/view-component.js')
+const view = require('../scripts/view-component.js');
+const d3 = require("d3");
 const jsdom = require("jsdom");
 
 const { JSDOM } = jsdom;
@@ -12,29 +13,29 @@ global.window = window;
 describe("View component", () => {
 
     describe("degreeCalc helper", () => {
-        it("should be a function", function() {
+        it("Should be a function", function() {
             expect(typeof view.degreeCalc).toBe("function");
         });
 
-        it("should return false if passed anything but a number", function() {
+        it("Should return false if passed anything but a number", function() {
             expect(view.degreeCalc('string')).toBeFalsy();
         });
 
-        it("should return a number when passed a number", function() {
+        it("Should return a number when passed a number", function() {
             expect(typeof view.degreeCalc(1)).toBe("number");
         });
     });
 
     describe("createCirclePointPaths", () => {
-        it("should be a function", function() {
+        it("Should be a function", function() {
             expect(typeof view.createCirclePointPaths).toBe("function");
         });
 
-        it("should return an arry", function() {
+        it("Should return an arry", function() {
             expect(Array.isArray(view.createCirclePointPaths())).toBeTruthy();
         });
 
-        it("should contain array of four functions", function() {
+        it("Should contain array of four functions", function() {
             const circlePointArray = view.createCirclePointPaths();
             circlePointArray.forEach( point => {
                 expect(typeof point).toBe("function");
@@ -43,15 +44,15 @@ describe("View component", () => {
     });
 
     describe("creatCirclePoints", () => {
-        it("should be a function", function() {
+        it("Should be a function", function() {
             expect(typeof view.creatCirclePoints).toBe("function");
         });
 
-        it("should return false if param 1 is anything but an object", function() {
+        it("Should return false if param 1 is anything but an object", function() {
             expect(view.creatCirclePoints('string', 'string')).toBeFalsy();
         });
 
-        it("should return false if param 2 is anything but a string", function() {
+        it("Should return false if param 2 is anything but a string", function() {
             expect(view.creatCirclePoints({}, 3)).toBeFalsy();
         }); 
         
@@ -59,20 +60,77 @@ describe("View component", () => {
 
     describe("createSvg", () => {
 
-        it("should be a function", function() {
+        it("Should be a function", function() {
             expect(typeof view.createSvg).toBe("function");
         });
 
-        it("should return false if param 1 is anything but a string", function() {
+        it("Should return false if param 1 is anything but a string", function() {
             expect(view.createSvg([], 'string')).toBeFalsy();
         });
 
-        it("should return false if param 2 is anything but a string", function() {
+        it("Should return false if param 2 is anything but a string", function() {
             expect(view.createSvg('string', 3)).toBeFalsy();
         }); 
 
-        it("should return an object", function() {
+        it("Should return an object", function() {
             expect(typeof view.createSvg('string', 'string')).toBe('object');
+        }); 
+
+        // it("Should call d3's select method", function() {
+        //     spyOn(d3, 'select')
+        //     view.createSvg();
+        //     expect(d3.select).toHaveBeenCalled()
+        // }); 
+        
+    });
+
+    describe("formatNumber", () => {
+        it("Should be a function", function() {
+            expect(typeof view.formatNumber).toBe("function");
+        });
+
+        it("Should return false if param 1 is anything but an string", function() {
+            expect(view.formatNumber(true, 'string')).toBeFalsy();
+        });
+
+        it("Should return false if param 2 is anything but a number", function() {
+            expect(view.formatNumber('string', 'string')).toBeFalsy();
+        }); 
+
+        it("Should return total as string with decimal every third placement without currency symbol when ',' unit passed", function() {
+            expect(view.formatNumber(',', 200000)).toBe('200.000');
+        }); 
+
+        it("Should return total as string with decimal every third placement without currency symbol when ',' unit passed", function() {
+            expect(view.formatNumber(',', 80000000)).toBe('80.000.000');
+        }); 
+
+        it("Should return total as string with decimal every third placement with currency symbol when '$,' unit passed", function() {
+            expect(view.formatNumber('$,', 200000)).toBe('200.000€');
+        }); 
+
+        it("Should return total as string with decimal every third placement with currency symbol when '$,' unit passed", function() {
+            expect(view.formatNumber('$,', 13400000)).toBe('13.400.000€');
+        }); 
+        
+    });
+
+    describe("createContainer", () => {
+
+        it("Should be a function", function() {
+            expect(typeof view.createContainer).toBe("function");
+        });
+
+        it("Should return false if anything passed but string", function() {
+            expect(view.createContainer([])).toBeFalsy();
+        });
+
+        it("Should return false if anything passed but string", function() {
+            expect(view.createContainer(false)).toBeFalsy();
+        }); 
+
+        it("Should return an object", function() {
+            expect(typeof view.createContainer('string', 'string')).toBe('object');
         }); 
         
     });
