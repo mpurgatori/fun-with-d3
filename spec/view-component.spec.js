@@ -3,7 +3,7 @@ const d3 = require("d3");
 const jsdom = require("jsdom");
 
 const { JSDOM } = jsdom;
-const { window } = new JSDOM('<!doctype html><html><body></body></html>');
+const { window } = new JSDOM('<!doctype html><html><body><div id="app"></div></body></html>');
 global.document = window.document;
 global.window = window;
 
@@ -74,14 +74,7 @@ describe("View component", () => {
 
         it("Should return an object", function() {
             expect(typeof view.createSvg('string', 'string')).toBe('object');
-        }); 
-
-        // it("Should call d3's select method", function() {
-        //     spyOn(d3, 'select')
-        //     view.createSvg();
-        //     expect(d3.select).toHaveBeenCalled()
-        // }); 
-        
+        });         
     });
 
     describe("formatNumber", () => {
@@ -129,10 +122,101 @@ describe("View component", () => {
             expect(view.createContainer(false)).toBeFalsy();
         }); 
 
-        it("Should return an object", function() {
-            expect(typeof view.createContainer('string', 'string')).toBe('object');
+        it("Id passed to createContainer should be null before invokation but not after", function() {
+            let element = document.getElementById('appDiv');
+            expect(element === null).toBeTruthy();
+            view.createContainer('appDiv');
+            element = document.getElementById('appDiv');
+            expect(element === null).toBeFalsy();
         }); 
+    });
+
+    describe("createBottomInfo", () => {
+
+        it("Should be a function", function() {
+            expect(typeof view.createBottomInfo).toBe("function");
+        });
+
+        it("Should return false if anything passed to param 1 but number", function() {
+            expect(view.createBottomInfo([],2,3,'string','string','string','string')).toBeFalsy();
+        });
+
+        it("Should return false if anything passed to param 2 but number", function() {
+            expect(view.createBottomInfo(1,null,3,'string','string','string','string')).toBeFalsy();
+        });
         
+        it("Should return false if anything passed to param 3 but number", function() {
+            expect(view.createBottomInfo(1,2,{},'string','string','string','string')).toBeFalsy();
+        });
+
+        it("Should return false if anything passed to param 4 but string", function() {
+            expect(view.createBottomInfo(1,2,3,4,'string','string','string')).toBeFalsy();
+        });
+
+        it("Should return false if anything passed to param 5 but string", function() {
+            expect(view.createBottomInfo(1,2,3,4,undefined,'string','string')).toBeFalsy();
+        });
+
+        it("Should return false if anything passed to param 6 but string", function() {
+            expect(view.createBottomInfo(1,2,3,4,'string',6,'string')).toBeFalsy();
+        });
+
+        it("Should return false if anything passed to param 7 but string", function() {
+            expect(view.createBottomInfo(1,2,3,4,'string','string',[1])).toBeFalsy();
+        });
+
+        it("First element on the class list should be undefined before invokation but not after", function() {
+            let div = document.createElement('div');
+            div.id = 'example';
+            let appParent = document.getElementById('app');
+            appParent.appendChild(div);
+
+            let element = document.getElementsByClassName("bottom-info");
+            expect(element[0] === undefined).toBeTruthy();
+            view.createBottomInfo(200, 300, 400, 'string', 'string', 'string', 'example');
+            element = document.getElementsByClassName("bottom-info");
+            expect(element[0] === undefined).toBeFalsy();
+        }); 
+    });
+
+    describe("placeSquiggleGraph", () => {
+
+        it("Should be a function", function() {
+            expect(typeof view.placeSquiggleGraph).toBe("function");
+        });
+
+        it("Should return false if anything passed to param 1 but strinf", function() {
+            expect(view.placeSquiggleGraph([],'string')).toBeFalsy();
+        });
+
+        it("Should return false if anything passed to param 2 but number", function() {
+            expect(view.placeSquiggleGraph('string',null)).toBeFalsy();
+        });
+
+        it("First element on the class list should be undefined before invokation but not after", function() {
+            let div = document.createElement('div');
+            div.id = 'example2';
+            let appParent = document.getElementById('app');
+            appParent.appendChild(div);
+
+            let element = document.getElementsByClassName("squiggle-image");
+            expect(element[0] === undefined).toBeTruthy();
+            view.placeSquiggleGraph('string', 'example2');
+            element = document.getElementsByClassName("squiggle-image");
+            expect(element[0] === undefined).toBeFalsy();
+        }); 
+    });
+
+    describe("init", () => {
+
+        it("Should be a function", function() {
+            expect(typeof view.init).toBe("function");
+        });
+
+        it("Should return false if anything passed to param 1 but strinf", function() {
+            expect(view.init('HELLO WORLD')).toBeFalsy();
+        });
+
     });
     
 });

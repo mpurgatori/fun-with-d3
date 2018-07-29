@@ -147,7 +147,7 @@ const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, a
                     </div>
                     <div class="smartphone-info">
                         <div style="color:${primary};" class="smartphone-header">Smartphone</div>
-                        <div><span class="smartphone-percent">${smartphonePercent}%</span><span class="smartphone-total">${smartphone.toLocaleString('de-DE')}${euroSymbal}</span></div>
+                        <div><span class="smartphone-percent">${smartphonePercent}%</span><span class="smartphone-total">${smartphone.toLocaleString('de-DE')}${euroSymbol}</span></div>
                     </div>`
     let parent = document.getElementById(appendDiv);
     parent.appendChild(div);
