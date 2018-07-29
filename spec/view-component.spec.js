@@ -1,4 +1,5 @@
 const view = require('../scripts/view-component.js');
+
 const d3 = require("d3");
 const jsdom = require("jsdom");
 
@@ -215,5 +216,5 @@ describe("View component", () => {
         });
 
     });
-    
 });
+

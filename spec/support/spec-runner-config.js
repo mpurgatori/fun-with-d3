@@ -1,6 +1,5 @@
 const path = require('path');
 
-
 var Jasmine = require('jasmine');
 var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
 var jasmine = new Jasmine();
@@ -13,3 +12,4 @@ jasmine.addReporter(new HtmlReporter({
 }));
 
 jasmine.execute();
+
