@@ -12,7 +12,7 @@ const d3 = require("d3");
 * @function degreeCalc
 * @description Helper function for calculating arc start and end points based on a 360 degree circle
 * @param {number} degree number corresponding to a degree on a circle
-* @returns {number} number between 0 and 2 that c orresponds to a point on a d3 arc
+* @returns {number} Radian that corresponds to a point on a d3 arc
 * @since 1.0.0
 */
 const degreeCalc = (degree)=> {

@@ -18365,16 +18365,35 @@ fetch('http://localhost:3000/measures')
     });
   });
 },{"./view-component.js":34}],34:[function(require,module,exports){
+/**
+ * @module view-component
+ * @description View component that renders an individual meter chart via the d3 library
+ * @since 1.0.0
+ * @requires d3
+ */
+
 const d3 = require("d3");
 
 
+/**
+* @function degreeCalc
+* @description Helper function for calculating arc start and end points based on a 360 degree circle
+* @param {number} degree number corresponding to a degree on a circle
+* @returns {number} number between 0 and 2 that c orresponds to a point on a d3 arc
+* @since 1.0.0
+*/
 const degreeCalc = (degree)=> {
     if (typeof degree !== "number")
         return false      
     return degree * Math.PI / 180.0;
 };
     
-
+/**
+* @function createCirclePointPaths
+* @description Creates an array of four d3 arc generators used to draw paths for points on meter inner circle
+* @returns {array} array or arc paths
+* @since 1.0.0
+*/
 const createCirclePointPaths = () => {
     let dotArcs = [];
     let start = -1;
@@ -18392,7 +18411,13 @@ const createCirclePointPaths = () => {
     return dotArcs
 };
 
- 
+ /**
+* @function creatCirclePoints
+* @description appends circle point paths and adds corresponding meter color
+* @param {object} meter d3 svg canvas object
+* @param {string} color hex color representing main arc color
+* @since 1.0.0
+*/
 const creatCirclePoints = (meter, color) => {
     if (typeof meter !== "object" || typeof color !== "string")
         return false
@@ -18405,6 +18430,14 @@ const creatCirclePoints = (meter, color) => {
     }
 };
 
+/**
+* @function createSvg
+* @description Appends main svg element to dom
+* @param {string} appendTo Id of which svg element will be appended
+* @param {string} arcName represents Id to attreibute to new div
+* @returns {object} d3 svg element
+* @since 1.0.0
+*/
 const createSvg = (appendTo, arcName) => {
     if (typeof appendTo !== "string" || typeof arcName !== "string")
         return false
@@ -18418,6 +18451,14 @@ const createSvg = (appendTo, arcName) => {
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 };
 
+/**
+* @function formatNumber
+* @description Appends main svg element to dom
+* @param {string} numberFormat represnts localeFormat option for formatting number in meter
+* @param {number} total combined total represnts 100% of whatever meter is measuring
+* @returns {string} the the formatted number to be appended to dom
+* @since 1.0.0
+*/
 const formatNumber = (numberFormat, total) => {
     if (typeof numberFormat !== "string" || typeof total !== "number")
         return false
@@ -18431,7 +18472,13 @@ const formatNumber = (numberFormat, total) => {
         formatPercent = euro.format(numberFormat)(total);
         return formatPercent;
 };
-  
+
+/**
+* @function createContainer
+* @description Creates and appends the parent container the meter will be placed in
+* @param {string} divId the id for the Main container
+* @since 1.0.0
+*/
 const createContainer = (divId) => {
     if (typeof divId !== "string")
         return false
@@ -18441,17 +18488,29 @@ const createContainer = (divId) => {
     document.getElementById("app").append(div);
 };
 
+/**
+* @function createBottomInfo
+* @description Creates and appends the information to be displayed below the meter
+* @param {number} tablet represents tablet allocation of total
+* @param {number} smartphone represents smartphone allocation of total
+* @param {number} total the total represntation of whatever is being measured
+* @param {string} primary Hex combination representing the color designated to smartphone allocation
+* @param {string} secondary Hex combination representing the color designated to tablet allocation
+* @param {string} unit The localeFormat option used to determine weather to place euro sign of not
+* @param {string} appendDiv the id for the Main container by which to append bottom information
+* @since 1.0.0
+*/
 const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, appendDiv) => {
     if (typeof tablet !== "number" || typeof smartphone !== "number" || typeof total !== "number" || typeof primary !== "string" || typeof secondary !== "string" || typeof unit !== "string" || typeof appendDiv !== "string")
         return false
-    const euroSymbal = unit === "$," ? "€" : "";
+    const euroSymbol = unit === "$," ? "€" : "";
     const tabletPercent = (tablet/total) * 100;
     const smartphonePercent = (smartphone/total) * 100;
     let div = document.createElement('div');
     div.setAttribute("class", "bottom-info")
     div.innerHTML = `<div class="tablet-info">
                         <div style="color:${secondary};" class="tablet-header">Tablet</div>
-                        <div><span class="tablet-percent">${tabletPercent}%</span><span class="tablet-total">${tablet.toLocaleString('de-DE')}${euroSymbal}</span></div>
+                        <div><span class="tablet-percent">${tabletPercent}%</span><span class="tablet-total">${tablet.toLocaleString('de-DE')}${euroSymbol}</span></div>
                     </div>
                     <div class="smartphone-info">
                         <div style="color:${primary};" class="smartphone-header">Smartphone</div>
@@ -18461,7 +18520,13 @@ const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, a
     parent.appendChild(div);
 };
 
-
+/**
+* @function placeSquiggleGraph
+* @description Creates and appends div containing graph image within meter chart
+* @param {string} image path to image asset
+* @param {string} appendDiv the id for the Main container by which to append bottom information
+* @since 1.0.0
+*/
 const placeSquiggleGraph = (image, appendDiv) => {
     if (typeof image !== "string" || typeof appendDiv !== "string")
         return false
@@ -18472,9 +18537,16 @@ const placeSquiggleGraph = (image, appendDiv) => {
     parent.appendChild(div);
 };
 
+/**
+* @function init
+* @description mMain function to be called in order to render chart view
+* @param {object} measurement main object per information being measured from api
+* @since 1.0.0
+*/
 const init = (measurement) => {
     if (typeof measurement !== "object")
         return false
+
     const twoPi = 2 * Math.PI;
     const appendTo = `#${measurement.name}`;
 
@@ -18518,7 +18590,15 @@ const init = (measurement) => {
 
 
 module.exports = {
-'init':init
+    'init': init,
+    'degreeCalc': degreeCalc,
+    'createCirclePointPaths': createCirclePointPaths,
+    'creatCirclePoints': creatCirclePoints,
+    'createSvg': createSvg,
+    'formatNumber': formatNumber,
+    'createContainer': createContainer,
+    'createBottomInfo': createBottomInfo,
+    'placeSquiggleGraph': placeSquiggleGraph,
 };
 
 
