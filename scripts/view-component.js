@@ -5,6 +5,7 @@ let width = 160,
     height = 160,
     twoPi = 2 * Math.PI;
 
+//Config object for d3 localeFormat function
 const localeFormatOptions = {
     "decimal": ".",
     "thousands": ".",
@@ -12,6 +13,7 @@ const localeFormatOptions = {
     "currency": ["","€"]
 };
 
+//
 const degreeCalc = (degree)=> {
     return degree * Math.PI / 180.0;
 };
@@ -20,40 +22,33 @@ const arc = d3.arc()
       .startAngle(0)
       .innerRadius(75)
       .outerRadius(80);
-  
-const dotArc1 = d3.arc()
-    .startAngle(degreeCalc(89))
-    .endAngle(degreeCalc(91))
-    .innerRadius(70)
-    .outerRadius(73);
+ 
+const createCirclePointPaths = () => {
+    let dotArcs = [];
+    let start = -1;
+    let end = 1;
+    for (let i=0; i<4; i++)
+    {
+        dotArcs[i] = d3.arc()
+        .startAngle(degreeCalc(start))
+        .endAngle(degreeCalc(end))
+        .innerRadius(70)
+        .outerRadius(73);
+        start += 90;
+        end += 90;
+    }
+    return dotArcs
+};
 
-const dotArc2 = d3.arc()
-    .startAngle(degreeCalc(179))
-    .endAngle(degreeCalc(181))
-    .innerRadius(70)
-    .outerRadius(73);
-
-const dotArc3 = d3.arc()
-    .startAngle(degreeCalc(269))
-    .endAngle(degreeCalc(271))
-    .innerRadius(70)
-    .outerRadius(73);
-
-const dotArc4 = d3.arc()
-    .startAngle(degreeCalc(-1))
-    .endAngle(degreeCalc(1))
-    .innerRadius(70)
-    .outerRadius(73);
-
-const points = [dotArc1, dotArc2, dotArc3, dotArc4];
  
 const creatCirclePoints = (meter, color) => {
-    let dot1, dot2, dot3, dot4;
-    let dots = [dot1, dot2, dot3, dot4];
-    dots.forEach((dot, i)=>{
-        dot = meter.append("path").attr("fill", color);
-        dot.attr("d", points[i]);
-    });
+    const points = createCirclePointPaths();
+    let dots = [];
+    for (let i=0; i<4; i++)
+    {
+        dots[i] = meter.append("path").attr("fill", color);
+        dots[i].attr("d", points[i]);
+    }
 };
 
 const createSvg = (appendTo, arcName) => {
