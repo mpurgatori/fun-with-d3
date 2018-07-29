@@ -18426,10 +18426,28 @@ const formatNumber = (numberFormat, total) => {
 };
   
 const createContainer = (divId) => {
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.setAttribute("id", divId);
     div.setAttribute("class", "charts");
     document.getElementById("app").append(div);
+};
+
+const createBottomInfo = (tablet, smartphone, total, primary, secondary, unit, appendDiv) => {
+    const euroSymbal = unit === "$," ? "€" : "";
+    const tabletPercent = (tablet/total) * 100;
+    const smartphonePercent = (smartphone/total) * 100;
+    let div = document.createElement('div');
+    div.setAttribute("class", "bottom-info")
+    div.innerHTML = `<div class="tablet-info">
+                        <div style="color:${secondary};" class="tablet-header">Tablet</div>
+                        <div><span class="tablet-percent">${tabletPercent}%</span><span class="tablet-total">${tablet.toLocaleString('de-DE')}${euroSymbal}</span></div>
+                    </div>
+                    <div class="smartphone-info">
+                        <div style="color:${primary};" class="smartphone-header">Smartphone</div>
+                        <div><span class="smartphone-percent">${smartphonePercent}%</span><span class="smartphone-total">${smartphone.toLocaleString('de-DE')}${euroSymbal}</span></div>
+                    </div>`
+    let parent = document.getElementById(appendDiv);
+    parent.appendChild(div);
 };
 
 const init = (measurement) => {
@@ -18449,7 +18467,7 @@ const init = (measurement) => {
     meter.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "description")
-        .attr("dy", "-1.5em")
+        .attr("dy", "-1em")
         .text(measurement.name);
 
     const percentComplete = meter.append("text")
@@ -18457,7 +18475,7 @@ const init = (measurement) => {
         .attr("class", "percent-complete")
         .attr("dy", ".4em");
     
-    creatCirclePoints(meter, measurement.primary);
+    creatCirclePoints(meter, measurement.secondary);
 
     meter.append("path")
     .attr("fill", measurement.primary)
@@ -18466,7 +18484,7 @@ const init = (measurement) => {
     formatPercent = formatNumber(measurement.unit,measurement.total);
 
     percentComplete.text(formatPercent);
-
+    createBottomInfo(measurement.tablet, measurement.smartphone, measurement.total, measurement.primary, measurement.secondary, measurement.unit, measurement.name);
 };
 
 

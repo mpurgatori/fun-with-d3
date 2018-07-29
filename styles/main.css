@@ -1,4 +1,59 @@
 
+#app {
+    font-family: 'Roboto Condensed', sans-serif;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    position: fixed;
+    top: 20%;
+}
+  
+#REVENUE, #IMPRESSIONS, #VISITS {
+    clear: both;
+    display: inline-block;
+    height: 200px;
+    width: 275px;
+    border-bottom: 2px solid #e8ebef;
+    padding-bottom: 15px;
+    margin: 50px 50px 0;
+}
+.bottom-info {
+    height: 50px;
+    width: 275px;
+}
+.tablet-info, .smartphone-info {
+    display: inline-block;
+}
+
+.tablet-info {
+    float: left;
+    text-align: left;
+}
+
+.smartphone-info {
+    float: right;
+    text-align: right;
+}
+
+.tablet-header, .smartphone-header {
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 5px;
+}
+
+.tablet-percent, .smartphone-percent {
+    margin-right: 3px;
+}
+
+.smartphone-percent, .tablet-percent {
+    font-size: 14px;
+}
+
+.smartphone-total, .tablet-total {
+    font-size: 14px;
+    color: #9B9B9B;
+}
 
 .description {
     font-family: 'Source Sans Pro', sans-serif;
@@ -7,7 +62,22 @@
 }
 
 .percent-complete {
-    font-family: 'Roboto Condensed', sans-serif;
     font-size: 25px;
     letter-spacing: -.03em;
+}
+
+@media (max-width: 950px){
+    body {
+        margin: 0;
+    }
+    #app {
+        position: relative;
+        width: 275px;;
+    }
+    #REVENUE, #IMPRESSIONS, #VISITS {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+    }
 }
