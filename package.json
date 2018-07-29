@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "json-server --watch model/data.json",
+    "start": "npm run bundle && json-server --watch model/data.json",
     "bundle": "browserify scripts/main.js -o bundle.js",
-    "test": "jasmine"
+    "test": "node spec/support/spec-runner-config.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +18,7 @@
     "uninstall": "0.0.0"
   },
   "devDependencies": {
-    "jasmine": "^3.1.0"
+    "jasmine": "^3.1.0",
+    "jasmine-pretty-html-reporter": "^0.2.5"
   }
 }

@@ -7,9 +7,6 @@ const { window } = new JSDOM('<!doctype html><html><body><div id="app"></div></b
 global.document = window.document;
 global.window = window;
 
-
-
-
 describe("View component", () => {
 
     describe("degreeCalc helper", () => {
@@ -185,7 +182,7 @@ describe("View component", () => {
             expect(typeof view.placeSquiggleGraph).toBe("function");
         });
 
-        it("Should return false if anything passed to param 1 but strinf", function() {
+        it("Should return false if anything passed to param 1 but string", function() {
             expect(view.placeSquiggleGraph([],'string')).toBeFalsy();
         });
 
@@ -213,7 +210,7 @@ describe("View component", () => {
             expect(typeof view.init).toBe("function");
         });
 
-        it("Should return false if anything passed to param 1 but strinf", function() {
+        it("Should return false if anything passed to param 1 other than object", function() {
             expect(view.init('HELLO WORLD')).toBeFalsy();
         });
 
