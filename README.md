@@ -1,4 +1,4 @@
-# marfeel
+# marfeel javascript test
 A client side application to display data in an elegant circular meter charts with d3
 
 
