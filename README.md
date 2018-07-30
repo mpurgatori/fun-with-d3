@@ -4,21 +4,19 @@ A client side application to display data in an elegant circular meter charts wi
 
 1. To configure application, navigate to project root and run npm i on a machine that has node installed.
 
-2. To start application, run - npm start - then open main.html in project root
+2. To start application run - npm start - then open main.html in project root.
 
-3. To run tests run - npm test -; To open spec runner for tests open report.html located at spec/support/results from root.
+3. To start tests run - npm test -; To open spec runner for tests open report.html located at spec/support/results from root.
 
 About the project:
 
 - I enjoyed working on this as it exposed me a little bit more to the d3 library and it's always good practice configuring applications from scratch.
 
-- I used a fake server package as well as the fetch api to serve up data on localhost:3000. npm start should launch the fake server but if there are any issues the fetch error handler will just pull the json file directly so that the project can still be viewed. It is possible but unlikely that the fake server would need to be installed globally (npm install -g json-server).
+- I used a fake server package as well as the fetch api to serve up data on localhost:3000. npm start should launch the fake server but if there are any issues the fetch error handler will just pull the json file directly so that the project can still be viewed.
 
-- Jasmine was used to unit test the view-component, the only file being tested as it contains 99% of the code. Main.js simply calls fetch and iterates the data with the view-component.
+- Jasmine was used to unit test and standard jsdoc documentation was used in the view-component.
 
-- Standard jsdoc documentation was used in the view-component. The jsdoc library was not included but could be easily to auto generate documentation.
-
-- I used a package called browserify to bundle and serve the javascript files so that require would work with no problems in the browser. You will notice that main.html imports scripts from a file called bundle.js wich is the bundled code. Browserify creates a new bundle every time npm start is run.
+- I used a package called browserify to bundle and serve the javascript files so that require would work with no problems in the browser. You will notice that main.html imports scripts from a file called bundle.js which is the bundled code. Browserify creates a new bundle every time npm start is run but git saves the last committed bundle.
 
 Things I wish I had time for:
 

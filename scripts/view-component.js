@@ -24,7 +24,7 @@ const degreeCalc = (degree)=> {
 /**
 * @function createCirclePointPaths
 * @description Creates an array of four d3 arc generators used to draw paths for points on meter inner circle
-* @returns {array} array or arc paths
+* @returns {array} array of arc paths
 * @since 1.0.0
 */
 const createCirclePointPaths = () => {
@@ -67,7 +67,7 @@ const creatCirclePoints = (meter, color) => {
 * @function createSvg
 * @description Appends main svg element to dom
 * @param {string} appendTo Id of which svg element will be appended
-* @param {string} arcName represents Id to attreibute to new div
+* @param {string} arcName represents Id to attribute to new div
 * @returns {object} d3 svg element
 * @since 1.0.0
 */
@@ -87,8 +87,8 @@ const createSvg = (appendTo, arcName) => {
 /**
 * @function formatNumber
 * @description Appends main svg element to dom
-* @param {string} numberFormat represnts localeFormat option for formatting number in meter
-* @param {number} total combined total represnts 100% of whatever meter is measuring
+* @param {string} numberFormat represents localeFormat option for formatting number in meter
+* @param {number} total combined total represents 100% of whatever meter is measuring
 * @returns {string} the the formatted number to be appended to dom
 * @since 1.0.0
 */
@@ -129,7 +129,7 @@ const createContainer = (divId) => {
 * @param {number} total the total represntation of whatever is being measured
 * @param {string} primary Hex combination representing the color designated to smartphone allocation
 * @param {string} secondary Hex combination representing the color designated to tablet allocation
-* @param {string} unit The localeFormat option used to determine weather to place euro sign of not
+* @param {string} unit The localeFormat option used to determine weather to place euro sign or not
 * @param {string} appendDiv the id for the Main container by which to append bottom information
 * @since 1.0.0
 */
@@ -172,7 +172,7 @@ const placeSquiggleGraph = (image, appendDiv) => {
 
 /**
 * @function init
-* @description mMain function to be called in order to render chart view
+* @description Main function to be called in order to render chart view
 * @param {object} measurement main object per information being measured from api
 * @since 1.0.0
 */
